@@ -4,7 +4,6 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -16,11 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.fitnesstracker.R;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class LoginActivity extends AppCompatActivity {
@@ -44,88 +39,62 @@ public class LoginActivity extends AppCompatActivity {
 
         firebaseAuth = FirebaseAuth.getInstance();
 
-        loginButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String emailStr = email.getText().toString().trim();
-                String passwordStr = password.getText().toString().trim();
+        loginButton.setOnClickListener(v -> {
+            String emailStr = email.getText().toString().trim();
+            String passwordStr = password.getText().toString().trim();
 
-                if(TextUtils.isEmpty(emailStr))
+            if(TextUtils.isEmpty(emailStr))
+            {
+                email.setError("Email is required.");
+                return;
+            }
+
+            if(TextUtils.isEmpty(passwordStr)) {
+                password.setError("Password is required.");
+                return;
+            }
+
+            progressBar.setVisibility(View.VISIBLE);
+
+            // user authentication
+
+            firebaseAuth.signInWithEmailAndPassword(emailStr, passwordStr).addOnCompleteListener(task -> {
+                if(task.isSuccessful())
                 {
-                    email.setError("Email is required.");
-                    return;
+                    Toast.makeText(LoginActivity.this, "Logged in successfully!", Toast.LENGTH_SHORT).show();
+                    startActivity(new Intent(getApplicationContext(), MainActivity.class));
                 }
-
-                if(TextUtils.isEmpty(passwordStr)) {
-                    password.setError("Password is required.");
-                    return;
+                else
+                {
+                    Toast.makeText(LoginActivity.this, "Error! " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                    progressBar.setVisibility(View.GONE);
                 }
-
-                progressBar.setVisibility(View.VISIBLE);
-
-                // user authentication
-
-                firebaseAuth.signInWithEmailAndPassword(emailStr, passwordStr).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if(task.isSuccessful())
-                        {
-                            Toast.makeText(LoginActivity.this, "Logged in successfully!", Toast.LENGTH_SHORT).show();
-                            startActivity(new Intent(getApplicationContext(), MainActivity.class));
-                        }
-                        else
-                        {
-                            Toast.makeText(LoginActivity.this, "Error! " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
-                            progressBar.setVisibility(View.GONE);
-                        }
-                    }
-                });
-            }
+            });
         });
 
-        registerRef.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(), RegisterActivity.class));
-            }
-        });
+        registerRef.setOnClickListener(v -> startActivity(new Intent(getApplicationContext(), RegisterActivity.class)));
 
-        forgotPassword.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                EditText resetEmail = new EditText(v.getContext());
-                AlertDialog.Builder passwordResetDialog = new AlertDialog.Builder(v.getContext());
-                passwordResetDialog.setTitle("Reset password?");
-                passwordResetDialog.setMessage("Enter your email to receive reset link.");
-                passwordResetDialog.setView(resetEmail);
+        forgotPassword.setOnClickListener(v -> {
+            EditText resetEmail = new EditText(v.getContext());
+            AlertDialog.Builder passwordResetDialog = new AlertDialog.Builder(v.getContext());
+            passwordResetDialog.setTitle("Reset password?");
+            passwordResetDialog.setMessage("Enter your email to receive reset link.");
+            passwordResetDialog.setView(resetEmail);
 
-                passwordResetDialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            passwordResetDialog.setNegativeButton("Cancel", (dialog, which) -> {});
+
+            passwordResetDialog.setPositiveButton("Send", (dialog, which) -> {
+                String email = resetEmail.getText().toString();
+                firebaseAuth.sendPasswordResetEmail(email)
+                        .addOnSuccessListener(unused -> Toast.makeText(LoginActivity.this, "Reset link has been sent.", Toast.LENGTH_SHORT).show()).addOnFailureListener(new OnFailureListener() {
                     @Override
-                    public void onClick(DialogInterface dialog, int which) {
-
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(LoginActivity.this, "Error! Reset link has not been sent. " + e.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
+            });
 
-                passwordResetDialog.setPositiveButton("Send", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        String email = resetEmail.getText().toString();
-                        firebaseAuth.sendPasswordResetEmail(email).addOnSuccessListener(new OnSuccessListener<Void>() {
-                            @Override
-                            public void onSuccess(Void unused) {
-                                Toast.makeText(LoginActivity.this, "Reset link has been sent.", Toast.LENGTH_SHORT).show();
-                            }
-                        }).addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                Toast.makeText(LoginActivity.this, "Error! Reset link has not been sent. " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                            }
-                        });
-                    }
-                });
-
-                passwordResetDialog.create().show();
-            }
+            passwordResetDialog.create().show();
         });
     }
 }
