@@ -2,6 +2,7 @@ package com.example.fitnesstracker.Fragments;
 
 import android.os.Bundle;
 
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
@@ -38,5 +39,9 @@ public class MapFragment extends Fragment {
         }));
 
         return view;
+    }
+
+    static {
+        AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
     }
 }

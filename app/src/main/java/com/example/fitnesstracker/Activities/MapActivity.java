@@ -1,6 +1,7 @@
 package com.example.fitnesstracker.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.fragment.app.Fragment;
 
 import android.os.Bundle;
@@ -18,5 +19,9 @@ public class MapActivity extends AppCompatActivity {
 
         Fragment fragment = new MapFragment();
         getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, fragment).commit();
+    }
+
+    static {
+        AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
     }
 }
