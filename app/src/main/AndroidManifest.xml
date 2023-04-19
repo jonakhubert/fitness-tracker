@@ -2,8 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
@@ -15,6 +15,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Fitnesstracker"
         tools:targetApi="31">
+        <activity
+            android:name=".Activities.MapActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
         <activity
             android:name=".Activities.LoginActivity"
             android:exported="false">
@@ -38,7 +45,6 @@
         <activity
             android:name=".Activities.MainActivity"
             android:exported="true">
-
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
@@ -46,16 +52,13 @@
 
         <meta-data
             android:name="preloaded_fonts"
-            android:resource="@array/preloaded_fonts" />
-
-        <!-- Sample AdMob app ID: ca-app-pub-3940256099942544~3347511713 -->
+            android:resource="@array/preloaded_fonts" /> <!-- Sample AdMob app ID: ca-app-pub-3940256099942544~3347511713 -->
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
-            android:value="ca-app-pub-3940256099942544~3347511713"/>
-
+            android:value="ca-app-pub-3940256099942544~3347511713" />
         <meta-data
-            android:name="com.google.android.geo.API.KEY"
-            android:value="AIzaSyDBvCP_l-WLrpLX4MYEpXtgtHfGqto7FMc"/>
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyDBvCP_l-WLrpLX4MYEpXtgtHfGqto7FMc" />
     </application>
 
 </manifest>
