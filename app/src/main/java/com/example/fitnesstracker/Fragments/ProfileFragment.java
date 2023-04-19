@@ -26,6 +26,8 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 
+import java.util.Objects;
+
 public class ProfileFragment extends Fragment {
     private View view;
     private TextView userName, userEmail;
@@ -52,7 +54,7 @@ public class ProfileFragment extends Fragment {
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseFirestore = FirebaseFirestore.getInstance();
 
-        userId = firebaseAuth.getCurrentUser().getUid();
+        userId = Objects.requireNonNull(firebaseAuth.getCurrentUser()).getUid();
         imagePath = "images/" + userId + "_profile.jpg";
 
         docRef = firebaseFirestore.collection("users").document(userId);
@@ -67,9 +69,11 @@ public class ProfileFragment extends Fragment {
         userEmail = view.findViewById(R.id.userEmail);
         userImage = view.findViewById(R.id.userImage);
 
-        docRef.addSnapshotListener(getActivity(), (value, error) -> {
-            userName.setText(value.getString("name"));
-            userEmail.setText(value.getString("email"));
+        docRef.addSnapshotListener(requireActivity(), (value, error) -> {
+            if(value != null) {
+                userName.setText(value.getString("name"));
+                userEmail.setText(value.getString("email"));
+            }
         });
 
         StorageReference profileRef = storeRef.child(imagePath);

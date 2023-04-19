@@ -42,7 +42,7 @@ public class SettingsFragment extends Fragment {
 
         FirebaseUser user = firebaseAuth.getCurrentUser();
 
-        if(!user.isEmailVerified())
+        if(user != null && !user.isEmailVerified())
         {
             verifyMessage.setVisibility(View.VISIBLE);
             verifyButton.setVisibility(View.VISIBLE);
@@ -57,7 +57,7 @@ public class SettingsFragment extends Fragment {
 
     public void logout() {
         firebaseAuth.signOut();
-        startActivity(new Intent(getActivity().getApplicationContext(), LoginActivity.class));
-        getActivity().finish();
+        startActivity(new Intent(requireActivity().getApplicationContext(), LoginActivity.class));
+        requireActivity().finish();
     }
 }
