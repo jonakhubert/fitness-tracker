@@ -45,7 +45,7 @@ public class HomeFragment extends Fragment {
 
         mapCard.setOnClickListener(v -> {
             Intent intent = new Intent(requireActivity(), MapActivity.class);
-            startActivity(intent;);
+            startActivity(intent);
         });
 
         return view;
