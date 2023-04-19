@@ -1,5 +1,6 @@
 package com.example.fitnesstracker.Fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.cardview.widget.CardView;
@@ -9,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.fitnesstracker.Activities.MapActivity;
 import com.example.fitnesstracker.R;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
@@ -40,6 +42,11 @@ public class HomeFragment extends Fragment {
 
         AdRequest adRequest = new AdRequest.Builder().build();
         ad.loadAd(adRequest);
+
+        mapCard.setOnClickListener(v -> {
+            Intent intent = new Intent(requireActivity(), MapActivity.class);
+            startActivity(intent;);
+        });
 
         return view;
     }
