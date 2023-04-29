@@ -9,6 +9,7 @@ import android.Manifest;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.example.fitnesstracker.R;
@@ -36,6 +37,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
     private Location currentLocation;
     private FusedLocationProviderClient fusedLocationProviderClient;
     private LocationCallback locationCallback;
+    private int steps = 0;
 
 
     @Override
@@ -53,20 +55,23 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
             return;
         }
 
-        LocationRequest locationRequest = new LocationRequest.Builder(10000)
+        LocationRequest locationRequest = new LocationRequest.Builder(1000)
             .setPriority(Priority.PRIORITY_HIGH_ACCURACY)
             .build();
 
         locationCallback = new LocationCallback() {
             @Override
             public void onLocationResult(@NonNull LocationResult locationResult) {
-                currentLocation = locationResult.getLastLocation();
-                LatLng myLocation = new LatLng(Objects.requireNonNull(currentLocation).getLatitude(), currentLocation.getLongitude());
+                Location newLocation = locationResult.getLastLocation();
+                LatLng myLocation = new LatLng(Objects.requireNonNull(newLocation).getLatitude(), newLocation.getLongitude());
                 if (myMap != null) {
                     myMap.clear();
                     myMap.addMarker(new MarkerOptions().position(myLocation).title("MyLocation"));
                     myMap.moveCamera(CameraUpdateFactory.newLatLng(myLocation));
                 }
+
+                updateStepCount(newLocation);
+                Log.d("StepCounter", "Current Step Counter: " + steps);
             }
         };
 
@@ -89,7 +94,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
         myMap.addMarker(new MarkerOptions().position(myLocation).title("MyLocation"));
         myMap.moveCamera(CameraUpdateFactory.newLatLng(myLocation));
 
-        LocationRequest locationRequest = new LocationRequest.Builder(10000)
+        LocationRequest locationRequest = new LocationRequest.Builder(1000)
                 .setPriority(Priority.PRIORITY_HIGH_ACCURACY)
                 .build();
 
@@ -101,6 +106,9 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
         myMap.getUiSettings().setZoomControlsEnabled(true);
         myMap.getUiSettings().setCompassEnabled(true);
         fusedLocationProviderClient.requestLocationUpdates(locationRequest, locationCallback, null);
+
+        updateStepCount(currentLocation);
+        Log.d("StepCounter", "Current Step Counter: " + steps);
     }
 
     @Override
@@ -117,6 +125,13 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
                 Toast.makeText(this, "Location permission is denied!", Toast.LENGTH_SHORT).show();
             }
         }
+    }
+
+    private void updateStepCount(Location newLocation) {
+        if (currentLocation != null && currentLocation.distanceTo(newLocation) > 1) {
+            steps++;
+        }
+        currentLocation = newLocation;
     }
 
     static {
