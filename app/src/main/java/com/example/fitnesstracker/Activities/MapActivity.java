@@ -37,14 +37,19 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
     private Location currentLocation;
     private FusedLocationProviderClient fusedLocationProviderClient;
     private LocationCallback locationCallback;
-    private int steps = 0;
+    private static MapActivity instance;
+    private static int steps = 0;
 
+    public static MapActivity getInstance() {
+        return instance;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
 
+        instance = this;
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
         getLastLocation();
     }
@@ -108,7 +113,6 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
         fusedLocationProviderClient.requestLocationUpdates(locationRequest, locationCallback, null);
 
         updateStepCount(currentLocation);
-        Log.d("StepCounter", "Current Step Counter: " + steps);
     }
 
     @Override
