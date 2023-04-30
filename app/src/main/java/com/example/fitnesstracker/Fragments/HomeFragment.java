@@ -6,6 +6,7 @@ import android.os.Bundle;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -44,9 +45,17 @@ public class HomeFragment extends Fragment {
         ad.loadAd(adRequest);
 
         mapCard.setOnClickListener(v -> {
-            Intent intent = new Intent(requireActivity(), MapActivity.class);
+            Intent intent;
+            if (MapActivity.getInstance() != null) {
+                Log.d("HomeFragment", "Using existing instance of MapActivity");
+                intent = new Intent(requireActivity(), MapActivity.getInstance().getClass());
+            } else {
+                Log.d("HomeFragment", "Creating new instance of MapActivity");
+                intent = new Intent(requireActivity(), MapActivity.class);
+            }
             startActivity(intent);
         });
+
 
         return view;
     }
