@@ -35,6 +35,7 @@
         <activity
             android:name=".Activities.MapActivity"
             android:parentActivityName=".Activities.MainActivity"
+            android:launchMode="singleTop"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
