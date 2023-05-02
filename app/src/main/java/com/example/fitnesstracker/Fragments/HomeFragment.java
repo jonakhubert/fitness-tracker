@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.fitnesstracker.Activities.MapActivity;
+import com.example.fitnesstracker.Activities.PedometerActivity;
 import com.example.fitnesstracker.R;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
@@ -45,6 +46,12 @@ public class HomeFragment extends Fragment {
 
         mapCard.setOnClickListener(v -> {
             Intent intent = new Intent(requireActivity(), MapActivity.class);
+            startActivity(intent);
+        });
+
+        pedometerCard.setOnClickListener(unused ->
+        {
+            Intent intent = new Intent(requireActivity(), PedometerActivity.class);
             startActivity(intent);
         });
 
