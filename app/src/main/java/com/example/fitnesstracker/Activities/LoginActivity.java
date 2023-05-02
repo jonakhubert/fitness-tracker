@@ -64,6 +64,7 @@ public class LoginActivity extends AppCompatActivity {
                 if(task.isSuccessful())
                 {
                     Toast.makeText(LoginActivity.this, "Logged in successfully!", Toast.LENGTH_SHORT).show();
+                    MapActivity.userId = Objects.requireNonNull(firebaseAuth.getCurrentUser()).getUid();
                     startActivity(new Intent(getApplicationContext(), MainActivity.class));
                 }
                 else

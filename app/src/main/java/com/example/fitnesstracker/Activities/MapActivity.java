@@ -6,6 +6,8 @@ import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.FragmentActivity;
 
 import android.Manifest;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
@@ -26,6 +28,7 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.Objects;
 
@@ -37,8 +40,10 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
     private Location currentLocation;
     private FusedLocationProviderClient fusedLocationProviderClient;
     private LocationCallback locationCallback;
-    private static MapActivity instance;
-    private static int steps = 0;
+    public static MapActivity instance;
+
+    public static int steps = 0;
+    public static String userId = null;
 
     public static MapActivity getInstance() {
         return instance;
@@ -47,10 +52,22 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_map);
 
         instance = this;
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
+
+        loadSteps();
+        getLastLocation();
+    }
+
+    @Override
+    protected void onRestart()
+    {
+        Log.d("MapActivity", "On start: " + userId);
+        super.onRestart();
+        loadSteps();
         getLastLocation();
     }
 
@@ -134,8 +151,23 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
     private void updateStepCount(Location newLocation) {
         if (currentLocation != null && currentLocation.distanceTo(newLocation) > 1) {
             steps++;
+            saveSteps();
         }
         currentLocation = newLocation;
+    }
+
+    private void saveSteps()
+    {
+        SharedPreferences prefs = getSharedPreferences(userId, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putInt("steps", steps);
+        editor.apply();
+    }
+
+    private void loadSteps()
+    {
+        SharedPreferences prefs = getSharedPreferences(userId, Context.MODE_PRIVATE);
+        steps = prefs.getInt("steps", 0);
     }
 
     static {
