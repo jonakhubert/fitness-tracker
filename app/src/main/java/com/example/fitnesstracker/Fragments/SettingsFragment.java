@@ -1,6 +1,8 @@
 package com.example.fitnesstracker.Fragments;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -13,9 +15,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.fitnesstracker.Activities.LoginActivity;
+import com.example.fitnesstracker.Activities.MapActivity;
 import com.example.fitnesstracker.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+
+import java.util.Objects;
 
 
 public class SettingsFragment extends Fragment {
@@ -56,8 +61,17 @@ public class SettingsFragment extends Fragment {
     }
 
     public void logout() {
+        saveSteps();
         firebaseAuth.signOut();
         startActivity(new Intent(requireActivity().getApplicationContext(), LoginActivity.class));
         requireActivity().finish();
+    }
+
+    private void saveSteps()
+    {
+        SharedPreferences prefs = requireContext().getSharedPreferences(Objects.requireNonNull(firebaseAuth.getCurrentUser()).getUid(), Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putInt("steps", MapActivity.steps);
+        editor.apply();
     }
 }
