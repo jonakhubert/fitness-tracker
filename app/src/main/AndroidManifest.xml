@@ -5,6 +5,15 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACTIVITY_RECOGNITION" />
+    <uses-permission android:name="android.permission.BODY_SENSORS" />
+
+    <uses-feature
+        android:name="android.hardware.sensor.stepcounter"
+        android:required="true"/>
+    <uses-feature
+        android:name="android.hardware.sensor.stepdetector"
+        android:required="true"/>
 
     <application
         android:allowBackup="true"
@@ -15,6 +24,14 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Fitnesstracker"
         tools:targetApi="31">
+        <activity
+            android:name=".Activities.PedometerActivity"
+            android:parentActivityName=".Activities.MainActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
         <activity
             android:name=".Activities.MapActivity"
             android:parentActivityName=".Activities.MainActivity"
