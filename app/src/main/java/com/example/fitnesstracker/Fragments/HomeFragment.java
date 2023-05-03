@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.fitnesstracker.Activities.MapActivity;
+import com.example.fitnesstracker.Activities.MusicActivity;
 import com.example.fitnesstracker.Activities.PedometerActivity;
 import com.example.fitnesstracker.R;
 import com.google.android.gms.ads.AdRequest;
@@ -60,6 +61,19 @@ public class HomeFragment extends Fragment {
         pedometerCard.setOnClickListener(unused ->
         {
             Intent intent = new Intent(requireActivity(), PedometerActivity.class);
+            startActivity(intent);
+        });
+
+        musicCard.setOnClickListener(unused ->
+        {
+            Intent intent;
+            if (MusicActivity.getInstance() != null) {
+                Log.d("HomeFragment", "Using existing instance of MusicActivity");
+                intent = new Intent(requireActivity(), MusicActivity.getInstance().getClass());
+            } else {
+                Log.d("HomeFragment", "Creating new instance of MusicActivity");
+                intent = new Intent(requireActivity(), MusicActivity.class);
+            }
             startActivity(intent);
         });
 
