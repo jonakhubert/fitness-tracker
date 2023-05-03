@@ -3,8 +3,6 @@ package com.example.fitnesstracker.Activities;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
-import android.hardware.SensorEvent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.util.Log;
@@ -19,7 +17,6 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.mikhaellopez.circularprogressbar.CircularProgressBar;
 
-import java.util.Objects;
 
 public class PedometerActivity extends AppCompatActivity
 {
