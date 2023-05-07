@@ -17,7 +17,6 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.mikhaellopez.circularprogressbar.CircularProgressBar;
 
-
 public class PedometerActivity extends AppCompatActivity
 {
     private FirebaseAuth firebaseAuth;
@@ -31,7 +30,7 @@ public class PedometerActivity extends AppCompatActivity
 
         firebaseAuth = FirebaseAuth.getInstance();
         user = firebaseAuth.getCurrentUser();
-        loadSteps();
+
         Log.d("PedometerActivity", "Create activity");
 
         if(MapActivity.getInstance() == null)
@@ -42,7 +41,7 @@ public class PedometerActivity extends AppCompatActivity
 
         resetSteps();
 
-        new CountDownTimer(Long.MAX_VALUE, 1000)
+        countDownTimer = new CountDownTimer(Long.MAX_VALUE, 1000)
         {
             public void onTick(long millisUntilFinished)
             {
@@ -52,16 +51,26 @@ public class PedometerActivity extends AppCompatActivity
                 stepsCounter.setText(String.valueOf(steps));
 
                 CircularProgressBar progressCircular = findViewById(R.id.circularProgressBar);
+                progressCircular.setProgressMax(ChallengesActivity.getLastIncompletedMilestone());
                 progressCircular.setProgressWithAnimation(steps);
+                saveSteps();
             }
             public void onFinish() {}
         }.start();
     }
 
     @Override
-    protected void onPause() {
+    protected void onPause()
+    {
         super.onPause();
         saveSteps();
+    }
+
+    @Override
+    protected void onResume()
+    {
+        super.onResume();
+        loadSteps();
     }
 
     private void resetSteps()
@@ -73,23 +82,28 @@ public class PedometerActivity extends AppCompatActivity
             MapActivity.steps = 0;
             steps = 0;
             TextView stepsCounter = findViewById(R.id.steps_counter);
-            stepsCounter.setText(0);
+            stepsCounter.setText(String.valueOf(steps));
+            saveSteps();
 
             return true;
         });
     }
 
-    private void loadSteps()
+    private synchronized void loadSteps()
     {
-        SharedPreferences prefs = getSharedPreferences(user.getUid(), Context.MODE_PRIVATE);
-        steps = prefs.getInt("steps", 0);
-        MapActivity.steps = steps;
+        if (user != null)
+        {
+            SharedPreferences prefs = getSharedPreferences(user.getUid(), Context.MODE_PRIVATE);
+            steps = prefs.getInt("steps", 0);
+            MapActivity.steps = steps;
+        }
     }
 
-    private void saveSteps()
+    private synchronized void saveSteps()
     {
-        if (firebaseAuth.getCurrentUser() != null) {
-            SharedPreferences prefs = getSharedPreferences(firebaseAuth.getCurrentUser().getUid(), Context.MODE_PRIVATE);
+        if (user != null)
+        {
+            SharedPreferences prefs = getSharedPreferences(user.getUid(), Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = prefs.edit();
             editor.putInt("steps", MapActivity.steps);
             editor.apply();
@@ -97,4 +111,5 @@ public class PedometerActivity extends AppCompatActivity
     }
 
     private int steps;
+    public static CountDownTimer countDownTimer = null;
 }
