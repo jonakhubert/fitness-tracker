@@ -31,6 +31,9 @@ public class PedometerActivity extends AppCompatActivity
         firebaseAuth = FirebaseAuth.getInstance();
         user = firebaseAuth.getCurrentUser();
 
+        stepsCounter = findViewById(R.id.steps_counter);
+        progressCircular = findViewById(R.id.circularProgressBar);
+
         Log.d("PedometerActivity", "Create activity");
 
         if(MapActivity.getInstance() == null)
@@ -40,20 +43,28 @@ public class PedometerActivity extends AppCompatActivity
         }
 
         resetSteps();
+        loadSteps();
+        updateInterface();
 
-        countDownTimer = new CountDownTimer(Long.MAX_VALUE, 1000)
+        if(countDownTimer == null)
+        {
+            countDownTimer = new CountDownTimer(Long.MAX_VALUE, 1000)
+            {
+                public void onTick(long millisUntilFinished)
+                {
+                    steps = MapActivity.steps;
+                    saveSteps();
+                }
+                public void onFinish() {}
+            }.start();
+        }
+
+        updateProgressThread = new CountDownTimer(Long.MAX_VALUE, 1000)
         {
             public void onTick(long millisUntilFinished)
             {
-                steps = MapActivity.steps;
-
-                TextView stepsCounter = findViewById(R.id.steps_counter);
-                stepsCounter.setText(String.valueOf(steps));
-
-                CircularProgressBar progressCircular = findViewById(R.id.circularProgressBar);
-                progressCircular.setProgressMax(ChallengesActivity.getLastIncompletedMilestone());
-                progressCircular.setProgressWithAnimation(steps);
-                saveSteps();
+                loadSteps();
+                updateInterface();
             }
             public void onFinish() {}
         }.start();
@@ -64,6 +75,7 @@ public class PedometerActivity extends AppCompatActivity
     {
         super.onPause();
         saveSteps();
+        updateProgressThread.cancel();
     }
 
     @Override
@@ -89,7 +101,7 @@ public class PedometerActivity extends AppCompatActivity
         });
     }
 
-    private synchronized void loadSteps()
+    private void loadSteps()
     {
         if (user != null)
         {
@@ -99,7 +111,7 @@ public class PedometerActivity extends AppCompatActivity
         }
     }
 
-    private synchronized void saveSteps()
+    private void saveSteps()
     {
         if (user != null)
         {
@@ -107,9 +119,20 @@ public class PedometerActivity extends AppCompatActivity
             SharedPreferences.Editor editor = prefs.edit();
             editor.putInt("steps", MapActivity.steps);
             editor.apply();
+            steps = MapActivity.steps;
         }
     }
 
+    private void updateInterface()
+    {
+        stepsCounter.setText(String.valueOf(MapActivity.steps));
+        progressCircular.setProgressMax(ChallengesActivity.getLastIncompletedMilestone());
+        progressCircular.setProgressWithAnimation(MapActivity.steps);
+    }
+
     private int steps;
+    private TextView stepsCounter;
+    CircularProgressBar progressCircular;
     public static CountDownTimer countDownTimer = null;
+    public static CountDownTimer updateProgressThread = null;
 }
