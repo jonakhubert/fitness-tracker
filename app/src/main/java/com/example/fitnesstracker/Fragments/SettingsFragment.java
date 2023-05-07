@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import com.example.fitnesstracker.Activities.LoginActivity;
 import com.example.fitnesstracker.Activities.MapActivity;
+import com.example.fitnesstracker.Activities.PedometerActivity;
 import com.example.fitnesstracker.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -61,17 +62,14 @@ public class SettingsFragment extends Fragment {
     }
 
     public void logout() {
-        saveSteps();
+        if(PedometerActivity.countDownTimer != null)
+        {
+            PedometerActivity.countDownTimer.cancel();
+            PedometerActivity.countDownTimer = null;
+        }
+
         firebaseAuth.signOut();
         startActivity(new Intent(requireActivity().getApplicationContext(), LoginActivity.class));
         requireActivity().finish();
-    }
-
-    private void saveSteps()
-    {
-        SharedPreferences prefs = requireContext().getSharedPreferences(Objects.requireNonNull(firebaseAuth.getCurrentUser()).getUid(), Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = prefs.edit();
-        editor.putInt("steps", MapActivity.steps);
-        editor.apply();
     }
 }
