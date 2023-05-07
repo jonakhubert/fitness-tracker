@@ -48,6 +48,14 @@
                 android:value="" />
         </activity>
         <activity
+            android:name=".Activities.ChallengesActivity"
+            android:exported="false"
+            android:parentActivityName=".Activities.MainActivity" >
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
             android:name=".Activities.LoginActivity"
             android:exported="false" >
             <meta-data

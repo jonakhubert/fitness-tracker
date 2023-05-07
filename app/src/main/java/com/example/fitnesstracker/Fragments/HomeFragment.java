@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.fitnesstracker.Activities.ChallengesActivity;
 import com.example.fitnesstracker.Activities.MapActivity;
 import com.example.fitnesstracker.Activities.MusicActivity;
 import com.example.fitnesstracker.Activities.PedometerActivity;
@@ -46,6 +47,18 @@ public class HomeFragment extends Fragment {
         AdRequest adRequest = new AdRequest.Builder().build();
         ad.loadAd(adRequest);
 
+        pedometerCard.setOnClickListener(unused ->
+        {
+            Intent intent = new Intent(requireActivity(), PedometerActivity.class);
+            startActivity(intent);
+        });
+
+        challengesCard.setOnClickListener(unused ->
+        {
+            Intent intent = new Intent(requireActivity(), ChallengesActivity.class);
+            startActivity(intent);
+        });
+
         mapCard.setOnClickListener(v -> {
             Intent intent;
             if (MapActivity.getInstance() != null) {
@@ -55,12 +68,6 @@ public class HomeFragment extends Fragment {
                 Log.d("HomeFragment", "Creating new instance of MapActivity");
                 intent = new Intent(requireActivity(), MapActivity.class);
             }
-            startActivity(intent);
-        });
-
-        pedometerCard.setOnClickListener(unused ->
-        {
-            Intent intent = new Intent(requireActivity(), PedometerActivity.class);
             startActivity(intent);
         });
 
