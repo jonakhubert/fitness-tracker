@@ -63,7 +63,7 @@ public class PedometerActivity extends AppCompatActivity
         {
             public void onTick(long millisUntilFinished)
             {
-                loadSteps();
+                //loadSteps();
                 updateInterface();
             }
             public void onFinish() {}
@@ -119,7 +119,7 @@ public class PedometerActivity extends AppCompatActivity
             SharedPreferences.Editor editor = prefs.edit();
             editor.putInt("steps", MapActivity.steps);
             editor.apply();
-            steps = MapActivity.steps;
+            //steps = MapActivity.steps;
         }
     }
 
