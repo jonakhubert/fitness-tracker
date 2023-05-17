@@ -6,8 +6,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:paddingLeft="16dp"
     android:paddingRight="16dp"
-    android:background="@color/material_dynamic_neutral10"
-    tools:context=".Activities.PedometerActivity">
+    tools:context=".Activities.PedometerActivity"
+    style="@style/SCREEN">
 
     <com.mikhaellopez.circularprogressbar.CircularProgressBar
         android:id="@+id/circularProgressBar"
@@ -24,7 +24,7 @@
         app:cpb_background_progressbar_color="#b6bbd8"
         app:cpb_background_progressbar_width="5dp"
         app:cpb_progress_direction="to_right"
-        app:cpb_progressbar_color="@color/white"
+        app:cpb_progressbar_color="#494444"
         app:cpb_progressbar_width="10dp"
         app:cpb_round_border="false" />
 
@@ -40,11 +40,11 @@
         android:layout_marginTop="140dp"
         android:layout_marginEnd="30dp"
         android:layout_marginBottom="10dp"
-        android:text="Steps"
+        android:text="@string/steps"
         android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Display1"
-        android:textColor="@color/white"
-        android:textSize="34sp" />
+        android:textSize="34sp"
+        style="@style/TEXT"/>
 
     <TextView
         android:id="@+id/steps_counter"
@@ -58,9 +58,9 @@
         android:layout_marginTop="70dp"
         android:layout_marginEnd="80dp"
         android:layout_marginBottom="80dp"
-        android:text="0"
+        android:text="@string/_0"
         android:textAlignment="center"
-        android:textColor="@color/white"
-        android:textSize="48sp" />
+        android:textSize="48sp"
+        style="@style/TEXT"/>
 
 </RelativeLayout>

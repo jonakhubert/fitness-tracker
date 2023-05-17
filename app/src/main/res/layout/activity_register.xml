@@ -4,17 +4,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/material_dynamic_neutral10"
-    tools:context=".Activities.RegisterActivity">
+    tools:context=".Activities.RegisterActivity"
+    style="@style/SCREEN">
 
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/roboto_medium"
-        android:text="FitnessTracker"
+        android:text="@string/fitnesstracker"
         android:textAlignment="center"
-        android:textColor="@color/white"
         android:textSize="30sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -22,7 +21,8 @@
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.13999999" />
+        app:layout_constraintVertical_bias="0.13999999"
+        style="@style/TEXT"/>
 
     <TextView
         android:id="@+id/textView2"
@@ -30,14 +30,14 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:fontFamily="@font/roboto_medium"
-        android:text="Create New Account"
+        android:text="@string/create_new_account"
         android:textAlignment="center"
-        android:textColor="@color/white"
         android:textSize="15sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
+        app:layout_constraintTop_toBottomOf="@+id/textView"
+        style="@style/TEXT"/>
 
     <EditText
         android:id="@+id/name"
@@ -45,20 +45,18 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
-        android:backgroundTint="@color/white"
         android:ems="10"
         android:fontFamily="@font/roboto_medium"
         android:hint="Name"
         android:inputType="textPersonName"
         android:minHeight="48dp"
         android:padding="10dp"
-        android:textColor="@color/white"
-        android:textColorHint="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView2"
-        app:layout_constraintVertical_bias="0.17000002" />
+        app:layout_constraintVertical_bias="0.17000002"
+        style="@style/EDITTEXT"/>
 
     <EditText
         android:id="@+id/email"
@@ -67,19 +65,17 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="24dp"
         android:layout_marginEnd="16dp"
-        android:backgroundTint="@color/white"
         android:ems="10"
         android:fontFamily="@font/roboto_medium"
         android:hint="Email"
         android:inputType="textEmailAddress"
         android:minHeight="48dp"
         android:padding="10dp"
-        android:textColor="@color/white"
-        android:textColorHint="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/name" />
+        app:layout_constraintTop_toBottomOf="@+id/name"
+        style="@style/EDITTEXT"/>
 
     <EditText
         android:id="@+id/password"
@@ -88,18 +84,16 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="24dp"
         android:layout_marginEnd="16dp"
-        android:backgroundTint="@color/white"
         android:ems="10"
         android:fontFamily="@font/roboto_medium"
         android:hint="Password"
         android:inputType="textPassword"
         android:minHeight="48dp"
         android:padding="10dp"
-        android:textColor="@color/white"
-        android:textColorHint="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/email" />
+        app:layout_constraintTop_toBottomOf="@+id/email"
+        style="@style/EDITTEXT"/>
 
     <Button
         android:id="@+id/registerButton"
@@ -108,15 +102,14 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="32dp"
         android:layout_marginEnd="16dp"
-        android:background="@color/white"
         android:fontFamily="@font/roboto_medium"
-        android:text="Register"
-        android:textColor="@color/black"
+        android:text="@string/register"
         android:textStyle="bold"
         app:backgroundTint="@null"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/password" />
+        app:layout_constraintTop_toBottomOf="@+id/password"
+        style="@style/BUTTON"/>
 
     <TextView
         android:id="@+id/loginRef"
@@ -124,21 +117,20 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:fontFamily="@font/roboto_medium"
-        android:text="Already registered? Login here"
+        android:text="@string/already_registered_login_here"
         android:textAlignment="viewStart"
-        android:textColor="#FFFFFF"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/registerButton" />
+        app:layout_constraintTop_toBottomOf="@+id/registerButton"
+        style="@style/TEXT"/>
 
     <ProgressBar
         android:id="@+id/registerProgressBar"
-        style="?android:attr/progressBarStyle"
+        style="@style/PROGRESSBAR"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:indeterminate="true"
-        android:indeterminateTint="@color/white"
         android:indeterminateTintMode="src_atop"
         android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"

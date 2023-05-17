@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/material_dynamic_neutral10"
-    tools:context=".Activities.MusicActivity">
+    tools:context=".Activities.MusicActivity"
+    style="@style/SCREEN">
 
     <ImageView
         android:id="@+id/imageView"
@@ -18,7 +18,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.145"
         app:srcCompat="@drawable/ic_baseline_music_video_24"
-        app:tint="@color/white" />
+        app:tint="#656060" />
 
     <ImageButton
         android:id="@+id/play_btn"
