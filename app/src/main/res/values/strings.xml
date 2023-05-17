@@ -2,4 +2,30 @@
     <string name="app_name">fitness-tracker</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="fitnesstracker">FitnessTracker</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="login">Login</string>
+    <string name="new_here_register_now">New here? Register now</string>
+    <string name="forgot_password">Forgot password?</string>
+    <string name="steps">Steps</string>
+    <string name="_0">0</string>
+    <string name="create_new_account">Create New Account</string>
+    <string name="register">Register</string>
+    <string name="already_registered_login_here">Already registered? Login here</string>
+    <string name="pedometer">PEDOMETER</string>
+    <string name="challenges">CHALLENGES</string>
+    <string name="map">MAP</string>
+    <string name="music">MUSIC</string>
+    <string name="name">Name</string>
+    <string name="your_profile">Your Profile</string>
+    <string name="switch_mode">Switch Mode</string>
+    <string name="challenge_name">challenge name</string>
+    <string name="challenge_milestone">challenge milestone</string>
+    <string name="settings">Settings</string>
+    <string name="profile">Profile</string>
+    <string name="home">Home</string>
+    <string name="logout">Logout</string>
+    <string name="verify_now">Verify Now</string>
+    <string name="email_has_not_been_verified">Email has not been verified!</string>
 </resources>
