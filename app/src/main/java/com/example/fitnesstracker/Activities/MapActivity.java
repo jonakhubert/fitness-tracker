@@ -6,6 +6,8 @@ import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.FragmentActivity;
 
 import android.Manifest;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
@@ -14,6 +16,7 @@ import android.widget.Toast;
 
 import com.example.fitnesstracker.R;
 
+import com.example.fitnesstracker.Util.NotificationUtil;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
@@ -27,6 +30,8 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import java.util.Objects;
 
@@ -52,6 +57,9 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
 
         instance = this;
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
+
+        firebaseAuth = FirebaseAuth.getInstance();
+        user = firebaseAuth.getCurrentUser();
 
         getLastLocation();
     }
@@ -143,6 +151,19 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
     private void updateStepCount(Location newLocation) {
         if (currentLocation != null && currentLocation.distanceTo(newLocation) > 1) {
             steps++;
+
+            Log.d("Steps", "steps: " + steps + " milestone: " + ChallengesActivity.getLastIncompletedMilestone());
+
+            int index = ChallengesActivity.getLastIndex();
+
+            if(steps >= ChallengesActivity.getLastIncompletedMilestone() && index < ChallengesActivity.challengesNames.length)
+            {
+                Log.d("Steps", "Challange " + ChallengesActivity.getLastIncompletedMilestone() + " completed!");
+                NotificationUtil.sendNotification(this, "Challenge completed!",
+                "You reached " + ChallengesActivity.challengesMilestones[index] +
+                " steps and completed " +
+                ChallengesActivity.challengesNames[index] + " challenge!");
+            }
         }
         currentLocation = newLocation;
     }
@@ -150,4 +171,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
     static {
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
     }
+
+    private FirebaseAuth firebaseAuth;
+    private FirebaseUser user;
 }

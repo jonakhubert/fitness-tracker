@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
+import android.util.Log;
 
 import com.example.fitnesstracker.Activities.MainActivity;
 import com.example.fitnesstracker.R;
@@ -17,7 +18,6 @@ public class NotificationUtil
     public static void sendNotification(Context context, String title, String message)
     {
         NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-
         // if os version >= Oreo
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
         {
