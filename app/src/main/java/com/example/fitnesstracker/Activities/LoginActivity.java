@@ -4,7 +4,9 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -17,6 +19,7 @@ import android.widget.Toast;
 import com.example.fitnesstracker.R;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import java.util.Objects;
 
@@ -64,6 +67,7 @@ public class LoginActivity extends AppCompatActivity {
                 if(task.isSuccessful())
                 {
                     Toast.makeText(LoginActivity.this, "Logged in successfully!", Toast.LENGTH_SHORT).show();
+                    updateStepsForUser();
                     startActivity(new Intent(getApplicationContext(), MainActivity.class));
                 }
                 else
@@ -98,5 +102,16 @@ public class LoginActivity extends AppCompatActivity {
 
             passwordResetDialog.create().show();
         });
+    }
+
+    private void updateStepsForUser()
+    {
+        FirebaseUser user = firebaseAuth.getCurrentUser();
+
+        if(user != null)
+        {
+            SharedPreferences prefs = getSharedPreferences(user.getUid(), Context.MODE_PRIVATE);
+            MapActivity.steps = prefs.getInt("steps", 0);
+        }
     }
 }

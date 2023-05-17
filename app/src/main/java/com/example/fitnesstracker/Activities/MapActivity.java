@@ -6,12 +6,17 @@ import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.FragmentActivity;
 
 import android.Manifest;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.example.fitnesstracker.R;
+
+import com.example.fitnesstracker.Util.NotificationUtil;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
@@ -25,9 +30,10 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import java.util.Objects;
-
 
 public class MapActivity extends FragmentActivity implements OnMapReadyCallback {
     // if there is an error: Error inflating class fragment -> clear the application cache in the emulator settings
@@ -36,14 +42,32 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
     private Location currentLocation;
     private FusedLocationProviderClient fusedLocationProviderClient;
     private LocationCallback locationCallback;
+    public static MapActivity instance;
 
+    public static int steps = 0;
+
+    public static MapActivity getInstance() {
+        return instance;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
 
+        instance = this;
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
+
+        firebaseAuth = FirebaseAuth.getInstance();
+        user = firebaseAuth.getCurrentUser();
+
+        getLastLocation();
+    }
+
+    @Override
+    protected void onResume()
+    {
+        super.onResume();
         getLastLocation();
     }
 
@@ -53,20 +77,23 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
             return;
         }
 
-        LocationRequest locationRequest = new LocationRequest.Builder(10000)
+        LocationRequest locationRequest = new LocationRequest.Builder(1000)
             .setPriority(Priority.PRIORITY_HIGH_ACCURACY)
             .build();
 
         locationCallback = new LocationCallback() {
             @Override
             public void onLocationResult(@NonNull LocationResult locationResult) {
-                currentLocation = locationResult.getLastLocation();
-                LatLng myLocation = new LatLng(Objects.requireNonNull(currentLocation).getLatitude(), currentLocation.getLongitude());
+                Location newLocation = locationResult.getLastLocation();
+                LatLng myLocation = new LatLng(Objects.requireNonNull(newLocation).getLatitude(), newLocation.getLongitude());
                 if (myMap != null) {
                     myMap.clear();
                     myMap.addMarker(new MarkerOptions().position(myLocation).title("MyLocation"));
                     myMap.moveCamera(CameraUpdateFactory.newLatLng(myLocation));
                 }
+
+                updateStepCount(newLocation);
+                Log.d("StepCounter", "Current Step Counter: " + steps);
             }
         };
 
@@ -89,7 +116,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
         myMap.addMarker(new MarkerOptions().position(myLocation).title("MyLocation"));
         myMap.moveCamera(CameraUpdateFactory.newLatLng(myLocation));
 
-        LocationRequest locationRequest = new LocationRequest.Builder(10000)
+        LocationRequest locationRequest = new LocationRequest.Builder(1000)
                 .setPriority(Priority.PRIORITY_HIGH_ACCURACY)
                 .build();
 
@@ -101,6 +128,8 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
         myMap.getUiSettings().setZoomControlsEnabled(true);
         myMap.getUiSettings().setCompassEnabled(true);
         fusedLocationProviderClient.requestLocationUpdates(locationRequest, locationCallback, null);
+
+        updateStepCount(currentLocation);
     }
 
     @Override
@@ -119,7 +148,30 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
         }
     }
 
+    private void updateStepCount(Location newLocation) {
+        if (currentLocation != null && currentLocation.distanceTo(newLocation) > 1) {
+            steps++;
+
+            Log.d("Steps", "steps: " + steps + " milestone: " + ChallengesActivity.getLastIncompletedMilestone());
+
+            int index = ChallengesActivity.getLastIndex();
+
+            if(steps >= ChallengesActivity.getLastIncompletedMilestone() && index < ChallengesActivity.challengesNames.length)
+            {
+                Log.d("Steps", "Challange " + ChallengesActivity.getLastIncompletedMilestone() + " completed!");
+                NotificationUtil.sendNotification(this, "Challenge completed!",
+                "You reached " + ChallengesActivity.challengesMilestones[index] +
+                " steps and completed " +
+                ChallengesActivity.challengesNames[index] + " challenge!");
+            }
+        }
+        currentLocation = newLocation;
+    }
+
     static {
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
     }
+
+    private FirebaseAuth firebaseAuth;
+    private FirebaseUser user;
 }

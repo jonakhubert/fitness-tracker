@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/material_dynamic_neutral10"
-    tools:context=".Fragments.HomeFragment">
+    tools:context=".Fragments.HomeFragment"
+    style="@style/SCREEN">
 
     <com.google.android.gms.ads.AdView
         android:id="@+id/adView"
@@ -41,7 +41,8 @@
             android:layout_gravity="fill"
             android:layout_margin="8dp"
             ads:cardCornerRadius="8dp"
-            ads:cardElevation="8dp">
+            ads:cardElevation="8dp"
+            style="@style/GRIDCARD">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -58,7 +59,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="PEDOMETER"
+                    android:text="@string/pedometer"
                     android:textAlignment="center"
                     android:textStyle="bold" />
             </LinearLayout>
@@ -75,7 +76,8 @@
             android:layout_gravity="fill"
             android:layout_margin="8dp"
             ads:cardCornerRadius="8dp"
-            ads:cardElevation="8dp">
+            ads:cardElevation="8dp"
+            style="@style/GRIDCARD">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -92,7 +94,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="CHALLENGES"
+                    android:text="@string/challenges"
                     android:textAlignment="center"
                     android:textStyle="bold" />
             </LinearLayout>
@@ -109,7 +111,8 @@
             android:layout_gravity="fill"
             android:layout_margin="8dp"
             ads:cardCornerRadius="8dp"
-            ads:cardElevation="8dp">
+            ads:cardElevation="8dp"
+            style="@style/GRIDCARD">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -126,7 +129,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="MAP"
+                    android:text="@string/map"
                     android:textAlignment="center"
                     android:textStyle="bold" />
             </LinearLayout>
@@ -143,7 +146,8 @@
             android:layout_gravity="fill"
             android:layout_margin="8dp"
             ads:cardCornerRadius="8dp"
-            ads:cardElevation="8dp">
+            ads:cardElevation="8dp"
+            style="@style/GRIDCARD">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -160,7 +164,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="MUSIC"
+                    android:text="@string/music"
                     android:textAlignment="center"
                     android:textStyle="bold" />
             </LinearLayout>

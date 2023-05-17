@@ -4,39 +4,38 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@color/material_dynamic_neutral10"
-    tools:context=".Fragments.SettingsFragment">
+    tools:context=".Fragments.SettingsFragment"
+    style="@style/SCREEN">
 
     <TextView
         android:id="@+id/verifyMessage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="Email has not been verified!"
+        android:text="@string/email_has_not_been_verified"
         android:textAlignment="center"
-        android:textColor="@color/white"
         android:textSize="18sp"
         android:textStyle="bold"
         android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        style="@style/TEXT"/>
 
     <Button
         android:id="@+id/verifyButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:text="Verify Now"
-        android:background="@color/white"
+        android:text="@string/verify_now"
         android:fontFamily="@font/roboto_medium"
-        android:textColor="@color/black"
         android:textStyle="bold"
         app:backgroundTint="@null"
         android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/verifyMessage" />
+        app:layout_constraintTop_toBottomOf="@+id/verifyMessage"
+        style="@style/BUTTON"/>
 
     <Button
         android:id="@+id/logout"
@@ -45,15 +44,51 @@
         android:layout_marginStart="100dp"
         android:layout_marginEnd="100dp"
         android:layout_marginBottom="70dp"
-        android:background="@color/white"
         android:fontFamily="@font/roboto_medium"
         android:onClick="logout"
-        android:text="Logout"
-        android:textColor="@color/black"
+        android:text="@string/logout"
         android:textStyle="bold"
         app:backgroundTint="@null"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        style="@style/BUTTON"/>
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toTopOf="parent">
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="322dp"
+        android:layout_height="47dp"
+        android:layout_weight="1"
+        android:gravity="center_vertical"
+        android:padding="10dp"
+        android:text="@string/switch_mode"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/logout"
+        app:layout_constraintEnd_toStartOf="@+id/switch_mode"
+        app:layout_constraintHorizontal_bias="0.571"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/verifyMessage"
+        app:layout_constraintVertical_bias="0.936"
+        style="@style/TEXT"/>
+
+    <Switch
+        android:id="@+id/switch_mode"
+        android:layout_width="61dp"
+        android:layout_height="48dp"
+        android:gravity="center"
+        android:textColorHint="#FFFFFF"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.774" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

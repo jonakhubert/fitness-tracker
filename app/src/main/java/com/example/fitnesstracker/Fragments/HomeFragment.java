@@ -6,11 +6,15 @@ import android.os.Bundle;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.fitnesstracker.Activities.ChallengesActivity;
 import com.example.fitnesstracker.Activities.MapActivity;
+import com.example.fitnesstracker.Activities.MusicActivity;
+import com.example.fitnesstracker.Activities.PedometerActivity;
 import com.example.fitnesstracker.R;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
@@ -43,8 +47,40 @@ public class HomeFragment extends Fragment {
         AdRequest adRequest = new AdRequest.Builder().build();
         ad.loadAd(adRequest);
 
+        pedometerCard.setOnClickListener(unused ->
+        {
+            Intent intent = new Intent(requireActivity(), PedometerActivity.class);
+            startActivity(intent);
+        });
+
+        challengesCard.setOnClickListener(unused ->
+        {
+            Intent intent = new Intent(requireActivity(), ChallengesActivity.class);
+            startActivity(intent);
+        });
+
         mapCard.setOnClickListener(v -> {
-            Intent intent = new Intent(requireActivity(), MapActivity.class);
+            Intent intent;
+            if (MapActivity.getInstance() != null) {
+                Log.d("HomeFragment", "Using existing instance of MapActivity");
+                intent = new Intent(requireActivity(), MapActivity.getInstance().getClass());
+            } else {
+                Log.d("HomeFragment", "Creating new instance of MapActivity");
+                intent = new Intent(requireActivity(), MapActivity.class);
+            }
+            startActivity(intent);
+        });
+
+        musicCard.setOnClickListener(unused ->
+        {
+            Intent intent;
+            if (MusicActivity.getInstance() != null) {
+                Log.d("HomeFragment", "Using existing instance of MusicActivity");
+                intent = new Intent(requireActivity(), MusicActivity.getInstance().getClass());
+            } else {
+                Log.d("HomeFragment", "Creating new instance of MusicActivity");
+                intent = new Intent(requireActivity(), MusicActivity.class);
+            }
             startActivity(intent);
         });
 
