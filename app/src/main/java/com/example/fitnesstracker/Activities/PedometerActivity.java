@@ -63,7 +63,6 @@ public class PedometerActivity extends AppCompatActivity
         {
             public void onTick(long millisUntilFinished)
             {
-                //loadSteps();
                 updateInterface();
             }
             public void onFinish() {}
