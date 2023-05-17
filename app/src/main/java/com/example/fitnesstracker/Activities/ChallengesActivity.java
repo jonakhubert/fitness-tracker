@@ -40,7 +40,23 @@ public class ChallengesActivity extends AppCompatActivity
         return getLastMilestone();
     }
 
-    private String[] challengesNames = {"first steps", "fitness enjoyer", "fitness beast"};
-    private static int[] challengesMilestones = {10, 20, 30};
+    public static int getLastIndex()
+    {
+        int index = 0;
+
+        for(int milestone : challengesMilestones)
+        {
+            if(milestone >= MapActivity.steps)
+            {
+                break;
+            }
+            ++index;
+        }
+
+        return index;
+    }
+
+    public static String[] challengesNames = {"first steps", "fitness enjoyer", "fitness beast"};
+    public static int[] challengesMilestones = {10, 20, 30};
     private ListView listView;
 }
