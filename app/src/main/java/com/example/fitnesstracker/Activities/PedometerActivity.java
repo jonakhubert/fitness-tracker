@@ -17,11 +17,45 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.mikhaellopez.circularprogressbar.CircularProgressBar;
 
+/**
+ * The PedometerActivity class represents an activity that tracks and displays the number of steps taken by the user.
+ */
 public class PedometerActivity extends AppCompatActivity
 {
+    /**
+     * Firebase authentication instance.
+     */
     private FirebaseAuth firebaseAuth;
+    /**
+     * Currently logged-in Firebase user.
+     */
     private FirebaseUser user;
+    /**
+     * Number of steps taken.
+     */
 
+    private int steps;
+    /**
+     * TextView to display the step count.
+     */
+    private TextView stepsCounter;
+    /**
+     * Circular progress bar to visualize step progress.
+     */
+    private CircularProgressBar progressCircular;
+    /**
+     * Countdown timer to periodically save the step count.
+     */
+    public static CountDownTimer countDownTimer = null;
+    /**
+     * Countdown timer to periodically update the interface.
+     */
+    public static CountDownTimer updateProgressThread = null;
+
+    /**
+     * Called when the activity is created.
+     * @param savedInstanceState The saved instance state.
+     */
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState)
     {
@@ -69,6 +103,9 @@ public class PedometerActivity extends AppCompatActivity
         }.start();
     }
 
+    /**
+     * Called when the activity is paused.
+     */
     @Override
     protected void onPause()
     {
@@ -77,6 +114,9 @@ public class PedometerActivity extends AppCompatActivity
         updateProgressThread.cancel();
     }
 
+    /**
+     * Called when the activity is resumed.
+     */
     @Override
     protected void onResume()
     {
@@ -84,6 +124,9 @@ public class PedometerActivity extends AppCompatActivity
         loadSteps();
     }
 
+    /**
+     * Resets the step count and sets up a long tap listener to reset the steps.
+     */
     private void resetSteps()
     {
         TextView stepsText = findViewById(R.id.steps_text);
@@ -100,6 +143,9 @@ public class PedometerActivity extends AppCompatActivity
         });
     }
 
+    /**
+     * Loads the step count from shared preferences.
+     */
     private void loadSteps()
     {
         if (user != null)
@@ -110,6 +156,9 @@ public class PedometerActivity extends AppCompatActivity
         }
     }
 
+    /**
+     * Saves the step count to shared preferences.
+     */
     private void saveSteps()
     {
         if (user != null)
@@ -118,20 +167,16 @@ public class PedometerActivity extends AppCompatActivity
             SharedPreferences.Editor editor = prefs.edit();
             editor.putInt("steps", MapActivity.steps);
             editor.apply();
-            //steps = MapActivity.steps;
         }
     }
 
+    /**
+     * Updates the user interface with the current step count and progress.
+     */
     private void updateInterface()
     {
         stepsCounter.setText(String.valueOf(MapActivity.steps));
         progressCircular.setProgressMax(ChallengesActivity.getLastIncompletedMilestone());
         progressCircular.setProgressWithAnimation(MapActivity.steps);
     }
-
-    private int steps;
-    private TextView stepsCounter;
-    CircularProgressBar progressCircular;
-    public static CountDownTimer countDownTimer = null;
-    public static CountDownTimer updateProgressThread = null;
 }

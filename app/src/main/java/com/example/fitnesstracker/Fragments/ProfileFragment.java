@@ -28,24 +28,57 @@ import com.squareup.picasso.Picasso;
 
 import java.util.Objects;
 
-public class ProfileFragment extends Fragment {
+/**
+ * Fragment class for displaying the user's profile.
+ */
+public class ProfileFragment extends Fragment
+{
+    /**
+     * The root view of the fragment.
+     */
     private View view;
+    /**
+     * TextView for displaying the user's name and email.
+     */
     private TextView userName, userEmail;
+    /**
+     * The ID of the user.
+     */
     private String userId;
+    /**
+     * ImageView for displaying the user's image.
+     */
     private ImageView userImage;
-
-    String imagePath;
-
+    /**
+     * The path to the user's image.
+     */
+    private String imagePath;
+    /**
+     * Instance of FirebaseAuth for authentication.
+     */
     private FirebaseAuth firebaseAuth;
+    /**
+     * Instance of FirebaseFirestore for database operations.
+     */
     private FirebaseFirestore firebaseFirestore;
-
+    /**
+     * Reference to a specific document in the database.
+     */
     private DocumentReference docRef;
+    /**
+     * Reference to a specific storage location in Firebase Storage.
+     */
     private StorageReference storeRef;
 
-    public ProfileFragment() {
-        // Required empty public constructor
-    }
+    /**
+     * Required empty public constructor
+     */
+    public ProfileFragment() {}
 
+    /**
+     * Called when the fragment is being created.
+     * @param savedInstanceState The saved instance state bundle.
+     */
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState)
     {
@@ -61,6 +94,13 @@ public class ProfileFragment extends Fragment {
         storeRef = FirebaseStorage.getInstance().getReference();
     }
 
+    /**
+     * Called when the fragment's view is created.
+     * @param inflater The layout inflater.
+     * @param container The container for the fragment's view.
+     * @param savedInstanceState The saved instance state bundle.
+     * @return The created view for the fragment.
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_profile, container, false);
@@ -90,13 +130,20 @@ public class ProfileFragment extends Fragment {
         return view;
     }
 
+    /**
+     * Uploads an image to Firebase Storage.
+     * @param imageUri The URI of the image to upload.
+     * @param imagePath The path where the image will be stored in Firebase Storage.
+     */
     private void uploadImageToFirebaseStorage(Uri imageUri, String imagePath)
     {
         StorageReference fileRef = storeRef.child(imagePath);
         fileRef.putFile(imageUri);
     }
 
-    // activity result callback after startForResult
+    /**
+     * Callback method called when the activity launched for result returns a result.
+     */
     private final ActivityResultLauncher<Intent> startForResult = registerForActivityResult
     (
         new ActivityResultContracts.StartActivityForResult(), result ->

@@ -47,3 +47,6 @@ render.experimental.xml
 
 # Android Profiling
 *.hprof
+
+# Docs
+documentation/

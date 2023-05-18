@@ -9,17 +9,46 @@ import android.widget.ImageButton;
 
 import com.example.fitnesstracker.R;
 
-public class MusicActivity extends AppCompatActivity {
+/**
+ * Represents the MusicActivity class for playing music.
+ */
+public class MusicActivity extends AppCompatActivity
+{
+    /**
+     * Button used to play the music.
+     */
     private ImageButton playButton;
+    /**
+     * Button used to pause the music.
+     */
     private ImageButton pauseButton;
+    /**
+     * Button used to stop the music.
+     */
     private ImageButton stopButton;
+    /**
+     * MediaPlayer instance for playing the music.
+     */
     private MediaPlayer mediaPlayer;
+    /**
+     * Instance of the MusicActivity class.
+     */
     public static MusicActivity instance;
 
-    public static MusicActivity getInstance() {
+    /**
+     * Gets the instance of the MusicActivity.
+     *
+     * @return The instance of MusicActivity.
+     */
+    public static MusicActivity getInstance()
+    {
         return instance;
     }
 
+    /**
+     * Called when the activity is created.
+     * @param savedInstanceState The saved instance state bundle.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,6 +62,11 @@ public class MusicActivity extends AppCompatActivity {
         mediaPlayer = MediaPlayer.create(this, R.raw.music);
     }
 
+    /**
+     * Plays the music.
+     *
+     * @param view The view that triggered the event.
+     */
     public void play(View view)
     {
         if(mediaPlayer == null)
@@ -44,6 +78,11 @@ public class MusicActivity extends AppCompatActivity {
         mediaPlayer.start();
     }
 
+    /**
+     * Pauses the music.
+     *
+     * @param view The view that triggered the event.
+     */
     public void pause(View view)
     {
         if(mediaPlayer != null)
@@ -52,11 +91,19 @@ public class MusicActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Stops the music.
+     *
+     * @param view The view that triggered the event.
+     */
     public void stop(View view)
     {
         stopPlayer();
     }
 
+    /**
+     * Stops the MediaPlayer and releases resources.
+     */
     private void stopPlayer()
     {
         if(mediaPlayer != null)
@@ -66,6 +113,9 @@ public class MusicActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Stop the MediaPlayer when the activity is stopped
+     */
     @Override
     protected void onStop() {
         super.onStop();

@@ -13,10 +13,20 @@ import android.os.Bundle;
 import com.example.fitnesstracker.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-
-public class MainActivity extends AppCompatActivity {
+/**
+ * Represents the MainActivity class, responsible for managing the main activity of the application.
+ */
+public class MainActivity extends AppCompatActivity
+{
+    /**
+     * Bottom navigation view for navigating between fragments
+     */
     private BottomNavigationView bottomNavigationView;
 
+    /**
+     * Called when the activity is created.
+     * @param savedInstanceState The saved instance state bundle.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,7 +37,6 @@ public class MainActivity extends AppCompatActivity {
 
         NavigationUI.setupWithNavController(bottomNavigationView, navController);
 
-        // Check night mode and set it if necessary
         SharedPreferences sharedPreferences = getSharedPreferences("MODE", Context.MODE_PRIVATE);
         boolean nightMode = sharedPreferences.getBoolean("night", false);
 

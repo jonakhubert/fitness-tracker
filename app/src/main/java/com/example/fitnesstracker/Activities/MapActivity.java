@@ -6,8 +6,6 @@ import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.FragmentActivity;
 
 import android.Manifest;
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
@@ -35,21 +33,61 @@ import com.google.firebase.auth.FirebaseUser;
 
 import java.util.Objects;
 
+/**
+ * Represents the MapActivity class, responsible for displaying the map and tracking user location.
+ */
 public class MapActivity extends FragmentActivity implements OnMapReadyCallback {
     // if there is an error: Error inflating class fragment -> clear the application cache in the emulator settings
+    /**
+     * Final variable for permission access
+     */
     private final int FINE_PERMISSION_CODE = 1;
+    /**
+     * GoogleMap instance for displaying the map
+     */
     private GoogleMap myMap;
+    /**
+     * Current user location
+     */
     private Location currentLocation;
+    /**
+     * FusedLocationProviderClient for accessing location services
+     */
     private FusedLocationProviderClient fusedLocationProviderClient;
+    /**
+     * LocationCallback for receiving location updates
+     */
     private LocationCallback locationCallback;
+    /**
+     * Firebase authentication instance
+     */
+    private FirebaseAuth firebaseAuth;
+    /**
+     * Current Firebase user
+     */
+    private FirebaseUser user;
+    /**
+     * Singleton instance of MapActivity
+     */
     public static MapActivity instance;
-
+    /**
+     * Step count
+     */
     public static int steps = 0;
 
-    public static MapActivity getInstance() {
+    /**
+     * Get the singleton instance of MapActivity.
+     * @return The MapActivity instance.
+     */
+    public static MapActivity getInstance()
+    {
         return instance;
     }
 
+    /**
+     * Called when the activity is created.
+     * @param savedInstanceState The saved instance state bundle.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,6 +102,10 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
         getLastLocation();
     }
 
+    /**
+     * Called when the activity is resumed.
+     * It requests the user's last known location.
+     */
     @Override
     protected void onResume()
     {
@@ -71,6 +113,10 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
         getLastLocation();
     }
 
+    /**
+     * Retrieves the user's last known location and updates the map and step count accordingly.
+     * If location permissions are not granted, it requests the necessary permissions.
+     */
     private void getLastLocation() {
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, FINE_PERMISSION_CODE);
@@ -109,6 +155,13 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
         });
     }
 
+    /**
+     * Called when the map is ready to be used.
+     * It sets up the map with the user's current location, enables zoom controls and compass,
+     * and updates the step count based on the current location.
+     *
+     * @param googleMap The GoogleMap object representing the map.
+     */
     @Override
     public void onMapReady(@NonNull GoogleMap googleMap) {
         myMap = googleMap;
@@ -132,6 +185,15 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
         updateStepCount(currentLocation);
     }
 
+    /**
+     * Called when the app receives the result of a permission request.
+     * It checks if the fine location permission is granted, and if so, it retrieves the user's last location.
+     * If the permission is denied, it displays a toast message.
+     *
+     * @param requestCode The code that was used to request the permission.
+     * @param permissions The requested permissions.
+     * @param grantResults The grant results for the corresponding permissions.
+     */
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -148,6 +210,14 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
         }
     }
 
+    /**
+     * Updates the step count based on the current location.
+     * If the current location is significantly different from the previous location,
+     * it increments the step count and checks if any challenges have been completed.
+     * If a challenge is completed, it sends a notification.
+     *
+     * @param newLocation The new location to update the step count.
+     */
     private void updateStepCount(Location newLocation) {
         if (currentLocation != null && currentLocation.distanceTo(newLocation) > 1) {
             steps++;
@@ -171,7 +241,4 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
     static {
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
     }
-
-    private FirebaseAuth firebaseAuth;
-    private FirebaseUser user;
 }

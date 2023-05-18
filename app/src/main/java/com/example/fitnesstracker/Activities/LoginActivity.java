@@ -23,13 +23,35 @@ import com.google.firebase.auth.FirebaseUser;
 
 import java.util.Objects;
 
+/**
+ * Represents the LoginActivity class, responsible for handling user login.
+ */
 public class LoginActivity extends AppCompatActivity {
+    /**
+     * EditText for entering email and password
+     */
     private EditText email, password;
+    /**
+     * Button for initiating login
+     */
     private Button loginButton;
+    /**
+     * TextView for navigating to the registration activity and initiating password reset
+     */
     private TextView registerRef, forgotPassword;
+    /**
+     * ProgressBar for indicating login progress
+     */
     private ProgressBar progressBar;
+    /**
+     * Firebase authentication instance
+     */
     private FirebaseAuth firebaseAuth;
 
+    /**
+     * Called when the activity is created.
+     * @param savedInstanceState The saved instance state bundle.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,8 +82,6 @@ public class LoginActivity extends AppCompatActivity {
             }
 
             progressBar.setVisibility(View.VISIBLE);
-
-            // user authentication
 
             firebaseAuth.signInWithEmailAndPassword(emailStr, passwordStr).addOnCompleteListener(task -> {
                 if(task.isSuccessful())
@@ -104,6 +124,9 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Update the number of steps for the current user from shared preferences.
+     */
     private void updateStepsForUser()
     {
         FirebaseUser user = firebaseAuth.getCurrentUser();

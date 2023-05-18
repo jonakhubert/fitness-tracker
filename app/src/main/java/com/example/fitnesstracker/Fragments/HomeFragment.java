@@ -20,19 +20,48 @@ import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.MobileAds;
 
-
-public class HomeFragment extends Fragment {
+/**
+ * Fragment class for the home screen.
+ */
+public class HomeFragment extends Fragment
+{
+    /**
+     * The root view of the fragment.
+     */
     private View view;
+    /**
+     * The AdView for displaying ads.
+     */
     private AdView ad;
+    /**
+     * CardView for the pedometer functionality.
+     */
     private CardView pedometerCard;
+    /**
+     * CardView for the challenges functionality.
+     */
     private CardView challengesCard;
+    /**
+     * CardView for the map functionality.
+     */
     private CardView mapCard;
+    /**
+     * CardView for the music functionality.
+     */
     private CardView musicCard;
 
-    public HomeFragment() {
-        // Required empty public constructor
-    }
+    /**
+     * Required empty public constructor
+     */
+    public HomeFragment() {}
 
+    /**
+     * Called when the fragment's view is created.
+     * @param inflater The layout inflater.
+     * @param container The container for the fragment's view.
+     * @param savedInstanceState The saved instance state bundle.
+     * @return The created view for the fragment.
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_home, container, false);

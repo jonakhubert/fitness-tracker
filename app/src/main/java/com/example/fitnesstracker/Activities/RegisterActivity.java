@@ -22,15 +22,40 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
-
-public class RegisterActivity extends AppCompatActivity {
+/**
+ * The RegisterActivity class represents an activity that allows users to register a new account.
+ */
+public class RegisterActivity extends AppCompatActivity
+{
+    /**
+     * EditText field for entering the user's name, email and password.
+     */
     private EditText name, email, password;
+    /**
+     * Button for registering the user.
+     */
     private Button registerButton;
+    /**
+     * TextView for navigating to the login activity.
+     */
     private TextView loginRef;
+    /**
+     * ProgressBar for indicating the registration progress.
+     */
     private ProgressBar progressBar;
+    /**
+     * Firebase authentication instance.
+     */
     private FirebaseAuth firebaseAuth;
+    /**
+     * Firebase Firestore instance.
+     */
     private FirebaseFirestore firebaseFirestore;
 
+    /**
+     * Called when the activity is created.
+     * @param savedInstanceState The saved instance state.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -76,8 +101,6 @@ public class RegisterActivity extends AppCompatActivity {
             }
 
             progressBar.setVisibility(View.VISIBLE);
-
-            // user registration
 
             firebaseAuth.createUserWithEmailAndPassword(emailStr, passwordStr).addOnCompleteListener(task -> {
                 if(task.isSuccessful())

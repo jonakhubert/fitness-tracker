@@ -22,23 +22,60 @@ import com.example.fitnesstracker.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-
-public class SettingsFragment extends Fragment {
+/**
+ * Fragment class for the settings screen.
+ */
+public class SettingsFragment extends Fragment
+{
+    /**
+     * The root view of the fragment.
+     */
     private View view;
+    /**
+     * TextView for displaying verification message.
+     */
     private TextView verifyMessage;
+    /**
+     * Button for initiating the verification process.
+     */
     private Button verifyButton;
+    /**
+     * Button for logging out the user.
+     */
     private Button logoutButton;
+    /**
+     * Instance of FirebaseAuth for authentication.
+     */
     private FirebaseAuth firebaseAuth;
-
+    /**
+     * Switch for toggling between day and night mode.
+     */
     private Switch switchMode;
+    /**
+     * Flag indicating if night mode is enabled.
+     */
     private static boolean nightMode;
+    /**
+     * SharedPreferences for storing user preferences.
+     */
     private SharedPreferences sharedPreferences;
+    /**
+     * SharedPreferences editor for modifying user preferences.
+     */
     private SharedPreferences.Editor editor;
 
-    public SettingsFragment() {
-        // Required empty public constructor
-    }
+    /**
+     * Required empty public constructor
+     */
+    public SettingsFragment() {}
 
+    /**
+     * Called when the fragment's view is created.
+     * @param inflater The layout inflater.
+     * @param container The container for the fragment's view.
+     * @param savedInstanceState The saved instance state bundle.
+     * @return The created view for the fragment.
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_settings, container, false);
@@ -91,6 +128,9 @@ public class SettingsFragment extends Fragment {
         return view;
     }
 
+    /**
+     * Logs out the user and navigates to the login screen.
+     */
     public void logout() {
         if(PedometerActivity.countDownTimer != null)
         {
