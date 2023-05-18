@@ -9,33 +9,33 @@ import androidx.lifecycle.Lifecycle;
 import androidx.test.core.app.ActivityScenario;
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.espresso.action.ViewActions;
-import androidx.test.filters.LargeTest;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
+import androidx.test.filters.LargeTest;
+
+import com.example.fitnesstracker.Activities.LoginActivity;
+import com.example.fitnesstracker.Activities.RegisterActivity;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import com.example.fitnesstracker.Activities.LoginActivity;
-import com.example.fitnesstracker.Activities.RegisterActivity;
-
 
 @LargeTest
 @RunWith(AndroidJUnit4.class)
-public class RegisterActivityTest {
-    private ActivityScenario<RegisterActivity> scenario;
+public class LoginActivityTest {
+    private ActivityScenario<LoginActivity> scenario;
 
     @Before
     public void setup() {
-        scenario = ActivityScenario.launch(com.example.fitnesstracker.Activities.RegisterActivity.class);
+        scenario = ActivityScenario.launch(LoginActivity.class);
         scenario.moveToState(Lifecycle.State.RESUMED);
     }
 
     @Test
     public void testLoginRefButton()
     {
-        onView(withId(R.id.loginRef)).perform(ViewActions.click());
-        Intent intent = new Intent(ApplicationProvider.getApplicationContext(), LoginActivity.class);
+        onView(withId(R.id.registerRef)).perform(ViewActions.click());
+        Intent intent = new Intent(ApplicationProvider.getApplicationContext(), RegisterActivity.class);
         scenario.onActivity(activity -> activity.startActivity(intent));
     }
 }
